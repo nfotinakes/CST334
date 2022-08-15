@@ -1,0 +1,63 @@
+#!/bin/bash
+
+# Name: Nicholas Fotinakes
+# Date: 2022-03-08
+# Title: Lab1 - task
+# Description: This program demonstrates some standard shell commands,
+# pre-defined variables, and calculates the area of a rectangle and a
+# circle via user input
+
+# Questions
+# 1. I am using Ubuntu 20.04
+# 2. I initially had trouble writing the 'if' statements before figuring
+# out the importance of white spaces which was causing errors. It also took me
+# a little to understand using bc and bc -l to perform floating point operations
+# and additional math library functions. I found that using 4*a(1) for pi to 10 decimal
+# places to calculate area and then using printf to format and round the area provided
+# greater accuracy.
+
+echo Executing $0
+echo $(/bin/ls | wc -l) files
+wc -l $(/bin/ls)
+echo "Home="$HOME
+echo "USER="$USER
+echo "PATH="$PATH
+echo "PWD="$PWD
+echo "\$\$"=$$
+user=`whoami`
+numusers=`who | wc -l`
+echo "Hi $user! There are $numusers users logged on."
+if [ $user = "nickf" ]
+then
+	echo "Now you can proceed!"
+else
+	echo "Check who logged in!"
+	exit 1
+fi
+
+response="Yes"
+while [ $response != "No" ]
+do
+	echo "Enter height of rectangle: "
+	read height
+	echo "Enter width of rectangle: "
+	read width
+	area=`expr $height \* $width`
+	echo "The area of the rectangle is $area"
+
+	echo "Would you like to repeat for another rectangle [Yes/No]?"
+	read response
+done
+
+# Step 3
+# Use while loop and bc to calculate floating point area of a cirlce 
+response="Yes"
+while [ $response != "No" ]
+do
+	echo "Enter radius of circle: "
+	read radius
+	area=$(echo "scale=10; 4*a(1) * $radius^2" | bc -l)
+	printf "The area of the circle is %.2f\n" "$area"
+	echo "Would you like to repeat for another circle [Yes/No]?"
+	read response
+done
